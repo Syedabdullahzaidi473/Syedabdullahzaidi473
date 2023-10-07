@@ -144,3 +144,98 @@ while True:
     else:
         print("Invalid input")
 ```
+tik tak toe game 
+HTML (index.html):<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="board">
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+        <div class="cell" onclick="makeMove(this)"></div>
+    </div>
+    <p id="message"></p>
+    <button id="resetButton" onclick="resetBoard()">Reset</button>
+    <script src="script.js"></script>
+</body>
+</html>CSS (style.css):.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
+    width: 320px;
+    margin: 0 auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 100px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+h1, p {
+    text-align: center;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+}JavaScript (script.js):let currentPlayer = 'X';
+let cells = document.querySelectorAll('.cell');
+let message = document.getElementById('message');
+
+function makeMove(cell) {
+    if (!cell.textContent) {
+        cell.textContent = currentPlayer;
+        checkWinner();
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+}
+
+function checkWinner() {
+    const winningCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
+
+    for (let combo of winningCombos) {
+        const [a, b, c] = combo;
+        if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+            message.textContent = `${currentPlayer} wins!`;
+            disableCells();
+            return;
+        }
+    }
+
+    if ([...cells].every(cell => cell.textContent)) {
+        message.textContent = "It's a draw!";
+    }
+}
+
+function disableCells() {
+    cells.forEach(cell => cell.style.pointerEvents = 'none');
+}
+
+function resetBoard() {
+    cells.forEach(cell => {
+        cell.textContent = '';
+        cell.style.pointerEvents = 'auto';
+    });
+    message.textContent = '';
+    currentPlayer = 'X';
+}
+
+resetBoard();
