@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script> 
+</head> 
+<body> 
+<div id="content" style="width:200px;height:200px;background-color: #ffffff;display: inline-block;"> 
+<p>User Login</p> 
+<p>Username:</p> 
+<input type="text" id="username"> 
+<p>Password:</p> 
+<input type="password" id="password"> 
+<button onclick="generateQR()">Generate QR</button> 
+</div> 
+<div id="qrcode" style="display: inline-block;"></div> 
+<script> 
+function generateQR() { 
+const content = document.getElementById('content'); 
+const username = document.getElementById('username').value; 
+const password = document.getElementById('password').value; 
+const data = JSON.stringify({username, password}); 
+const qrcode = new QRCode('qrcode', { 
+text: data, 
+width: 200, 
+height: 200, 
+colorDark: '#000000', 
+colorLight: '#ffffff', 
+correctLevel: QRCode.CorrectLevel.H 
+}); 
+content.style.display = 'none'; 
+} 
+</script> 
+</body> 
+</html>
